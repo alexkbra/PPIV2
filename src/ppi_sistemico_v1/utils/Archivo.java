@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import ppi_sistemico_v1.bean.Ficha;
 import ppi_sistemico_v1.juego.Juego;
 import ppi_sistemico_v1.juego.Lista;
+import ppi_sistemico_v1.vistas.vista1JFrame;
 
 /**
  *
@@ -22,57 +23,49 @@ public class Archivo {
 
     Lista p;
 
-    public void escribir_archivo() {
+    public boolean escribir_archivo(Juego juego, String url) {
         try {
-            FileOutputStream archivo = new FileOutputStream("paginaDomino.thml");
-//            PrintStream 
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        
-        FileWriter fichero = null;
-        PrintWriter pw = null;
-        String url = "C:\\Temp\\domino.html";
-        try {
-            fichero = new FileWriter(url);
-            pw = new PrintWriter(fichero);
-            Juego ju = new Juego();
-            String html = "<DOCTYPE html!>";
-            html += "<html>";
-            html += "<head>";
-            html += "   <title>Domino<title/>";
-            html += "</head>";
-            html += "</head>";
-            html += "<body>";
-            html += "    <div><h1>ListaSistemico</h1></div>";
-            for (int i = 0; i < 5; i++) {
-                p = ju.getinfovec(i);
-                html += "    <div id='Vec[" + i + "]'><h1>VEC[" + i + "]</h1></div>";
-                while (p != null) {
-                    Ficha f = p.getPunta();
-                    html += "    <h2 id='" + f.getNum1() + "'>Numero <h1>1</h1><span>" + f.getNum1() + "</span></h2>";
-                    html += "    <h2 id='" + f.getNum2() + "'>Numero <h1>2</h1><span>" + f.getNum2() + "</span></h2>";
+
+            FileOutputStream archivo = new FileOutputStream(url);
+            try (PrintStream abrirArhivo = new PrintStream(archivo)) {
+                if (juego != null) {
+                    String html = "<DOCTYPE html!>";
+                    html += "<html>";
+                    html += "<head>";
+                    html += "   <title>Domino</title>";
+                    html += "</head>";
+                    html += "</head>";
+                    html += "<body>";
+                    html += "    <div><h1>ListaSistemico</h1></div>";
+
+                    Lista[] p = juego.getVec();
+                    for (int i = 0; i < p.length; i++) {
+                        Ficha ficha = p[i].getPunta();
+                        html += "    <div id='Vec[" + i + "]'><h1>VEC[" + i + "]</h1></div>";
+                        while (ficha != null) {
+                            Ficha f = ficha;
+                            html += "    <h2 id='" + f.getNum1() + "'>Numero <h1>1</h1><span>" + f.getNum1() + "</span></h2>";
+                            html += "    <h2 id='" + f.getNum2() + "'>Numero <h1>2</h1><span>" + f.getNum2() + "</span></h2>";
+                            ficha = ficha.getLiga();
+                        }
+                    }
+
+                    html += "</body>";
+                    html += "</html>";
+                    abrirArhivo.print(html);
+                }else{
+                    return false;
                 }
             }
-            html += "</body>";
-            html += "</html>";
-            pw.print(html);
-            pw.close();
             OpenWin.muestraURL(url, "mozilla");
+            return true;
         } catch (Exception e) {
-        } finally {
-            try {
-                // Nuevamente aprovechamos el finally para
-                // asegurarnos que se cierra el fichero.
-                if (null != fichero) {
-                    fichero.close();
-                }
-            } catch (Exception e2) {
-            }
+            e.printStackTrace();
         }
+        return false;
     }
 
-    public String leerArchivo(JFrame jframe) {
+    public String leerArchivo(vista1JFrame jframe) {
         String res = "";
         try {
             FileReader fr = new FileReader(OpenSelectFile(jframe));
@@ -123,9 +116,10 @@ public class Archivo {
         return res;
     }
 
-    public String OpenSelectFile(JFrame jframe) {
+    public String OpenSelectFile(vista1JFrame jframe) {
         String res = "";
         JFileChooser fc = new JFileChooser();
+//        fc.setSelectedFile(jframe.get);
         int respuesta = fc.showOpenDialog(jframe);
         if (respuesta == JFileChooser.APPROVE_OPTION) {
             File archivoElegido = fc.getSelectedFile();
