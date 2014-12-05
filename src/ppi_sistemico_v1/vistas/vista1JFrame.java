@@ -27,7 +27,16 @@ public class vista1JFrame extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton3);
         buttonGroup1.add(jRadioButton4);
     }
-
+    
+    public Juego getJuego(){
+        return juego;
+    }
+    
+    public void setJuego(Juego juego){
+        this.juego = juego;
+    }
+    
+    
     public void iniciarJuego() {
         String NFS = jTextField1.getText();
         try {

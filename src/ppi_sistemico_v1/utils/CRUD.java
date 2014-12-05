@@ -20,4 +20,13 @@ public class CRUD {
         }
         return p;
     }
+    public static int contarFichas(Ficha f){
+        int totalFichas = 0;
+        Ficha n = f;
+        while (n != null) {
+            totalFichas++;
+            n = n.getLiga();
+        }
+       return totalFichas;
+    }
 }

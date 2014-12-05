@@ -42,7 +42,7 @@ public class Archivo {
                     Lista[] p = juego.getVec();
                     for (int i = 0; i < p.length; i++) {
                         Ficha ficha = p[i].getPunta();
-                        html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>|" + getNombre(i) + "|</h1></div></td>";
+                        html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>|" + getNombre(i) + "|:|"+CRUD.contarFichas(ficha)+"</h1></div></td>";
                         while (ficha != null) {
                             Ficha f = ficha;
                             html += "    <td><table border=\"2\"><tr><td>";
@@ -87,7 +87,6 @@ public class Archivo {
             case 4:
                 name = "Juego";
                 break;
-                
 
         }
         return name;
@@ -102,7 +101,6 @@ public class Archivo {
             while (valor != -1) {
                 char c = (char) (valor);
                 res += c + "";
-
             }
             fr.close();
         } catch (Exception e) {
@@ -111,22 +109,30 @@ public class Archivo {
         return res;
     }
 
-    public String obtenerPalabra(FileReader fr) {
-        String res = "";
-        try {
-            int valor = fr.read();
-            valor = fr.read();
-            while ((valor != -1)) {
-                res = (char) (valor) + "";
-                if (("\'").equals((char) (valor) + "")) {
-                    break;
+    public void construir(String contentText,vista1JFrame frame) {
+        String[] v = contentText.split("|");
+        int numberVec = -1,iVec = 0;
+        Lista[] listas = new Lista[5];
+        for (int i = 1; i < contentText.length(); i += 2) {
+            int numero1 = 0, numero2 = 0;
+            try {
+                int res = Integer.parseInt(v[i]);
+                for (int j = i ; j < numberVec && j < contentText.length(); j += 2) {
+                    numero1 = Integer.parseInt(v[j]);
+                    numero2 = Integer.parseInt(v[j+2]);
+                    listas[iVec] = new Lista();
+                    listas[iVec].insertarAdelante(new Ficha(numero1, numero2));
                 }
-
+            } catch (Exception exception) {
+                numberVec=Integer.parseInt(v[i+1]);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return res;
+        Juego j = frame.getJuego();
+        if(j == null){
+            frame.setJuego(new Juego());
+        }
+        
+        frame.pintar();
     }
 
     public String OpenSelectFile(vista1JFrame jframe) {
