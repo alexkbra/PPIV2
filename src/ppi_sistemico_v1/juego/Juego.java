@@ -176,6 +176,7 @@ public class Juego {
                             res = "Gane!!";
                         }
                     } else {
+                        
                         res += "No Existe Dirección, Debe ser I ó D";
                     }
                 }

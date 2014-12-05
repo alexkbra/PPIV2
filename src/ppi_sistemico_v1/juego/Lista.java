@@ -90,7 +90,6 @@ public class Lista {
                     } else {
                         a.setLiga(p.getLiga());
                         p = null;
-                        
                         res = true;
                     }
                 }
