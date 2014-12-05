@@ -20,14 +20,12 @@ public class PanelFichas extends JFrame implements ActionListener {
     public PanelFichas(Juego j) {
         setLayout(null);
         this.j = j;
-        image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Imagenes\\ficha1-1.png"));
         init();
         show();
     }
 
     public PanelFichas() {
         setLayout(null);
-        image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Imagenes\\ficha1-1.png"));
         init();
         show();
     }
@@ -36,6 +34,7 @@ public class PanelFichas extends JFrame implements ActionListener {
         System.out.println();
         resize(700, 500);
         if (j == null) {
+            image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Imagenes\\ficha1-1.png"));
             x = new Ficha(1, 1, image);
             y = new Ficha(2, 3, image);
             add(x);
