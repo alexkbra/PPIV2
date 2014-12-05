@@ -24,42 +24,55 @@ public class Archivo {
         try {
 
             FileOutputStream archivo = new FileOutputStream(url);
-            try (PrintStream abrirArhivo = new PrintStream(archivo)) {
-                if (juego != null) {
-                    
-                    String html = "<DOCTYPE html!>";
-                    html += "<html>";
-                    html += "<head>";
-                    html += "   <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
-                    html += "   <title>Domino</title>";
-                    html += "</head>";
-                    html += "</head>";
-                    html += "<body>";
-                    html += "    <div><h1>ListaSistemico</h1></div>";
+            PrintStream abrirArhivo = new PrintStream(archivo);
 
-                    Lista[] p = juego.getVec();
-                    for (int i = 0; i < p.length; i++) {
-                        Ficha ficha = p[i].getPunta();
-                        html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>|" + getNombre(i) + "|:|" + CRUD.contarFichas(ficha) + "|</h1></div></td>";
-                        while (ficha != null) {
-                            Ficha f = ficha;
-                            html += "    <td><table border=\"2\"><tr><td>";
-                            html += "    <span class=\"" + f.getNum1() + "\" >|" + f.getNum1() + "|</span></td>";
-                            html += "    <td><span class=\"" + f.getNum2() + "\">|" + f.getNum2() + "|</span></td>";
-                            html += "    <tr></table></td>";
-                            ficha = ficha.getLiga();
-                        }
-                        html += "</tr></table><br/>";
+            FileOutputStream archivoJson = new FileOutputStream(new File(".").getAbsolutePath() + "/Datos/juego.json");
+            PrintStream abrirArhivoJson = new PrintStream(archivoJson);
+
+            if (juego != null) {
+                String json = "{\"Vector\":[";
+                String html = "<DOCTYPE html!>";
+                html += "<html>";
+                html += "<head>";
+                html += "   <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
+                html += "   <title>Domino</title>";
+                html += "</head>";
+                html += "</head>";
+                html += "<body>";
+                html += "    <div><h1>ListaSistemico</h1></div>";
+
+                Lista[] p = juego.getVec();
+                for (int i = 0; i < p.length; i++) {
+                    Ficha ficha = p[i].getPunta();
+                    html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>" + getNombre(i) + "</h1></div></td>";
+                    json += "  \"Vec" + i + "\":[";
+                    while (ficha != null) {
+                        Ficha f = ficha;
+                        html += "    <td><table border=\"2\"><tr><td>";
+                        html += "    <span class=\"" + f.getNum1() + "\" >" + f.getNum1() + "</span></td>";
+                        html += "    <td><span class=\"" + f.getNum2() + "\">" + f.getNum2() + "</span></td>";
+                        html += "    <tr></table></td>";
+                        json += "{\"Num1\":\"" + f.getNum1() + "\",\"Num2\":\"" + f.getNum2() + "\"},";
+
+                        ficha = ficha.getLiga();
                     }
-
-                    html += "</body>";
-                    html += "</html>";
-                    abrirArhivo.print(html);
-                } else {
-                    return false;
+                    json = json.substring(0, json.length() - 1);
+                    json += "],";
+                    html += "</tr></table><br/>";
                 }
+                json = json.substring(0, json.length() - 1);
+                json += "]}";
+                html += "</body>";
+                html += "</html>";
+                abrirArhivoJson.print(json);
+                abrirArhivo.print(html);
+            } else {
+                return false;
             }
+
             OpenWin.muestraURL(url, "mozilla");
+            abrirArhivoJson.close();
+            abrirArhivo.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,6 +111,7 @@ public class Archivo {
             while (valor != -1) {
                 char c = (char) (valor);
                 res += c + "";
+                valor = fr.read();
             }
             fr.close();
             construir(res, jframe);
@@ -136,7 +150,7 @@ public class Archivo {
     public String OpenSelectFile(vista1JFrame jframe) {
         String res = "";
         JFileChooser fc = new JFileChooser();
-        fc.setSelectedFile(new File(jframe.getDireccion()));
+        fc.setSelectedFile(new File(new File(".").getAbsolutePath() + "/Datos/juego.json"));
         int respuesta = fc.showOpenDialog(jframe);
         if (respuesta == JFileChooser.APPROVE_OPTION) {
             File archivoElegido = fc.getSelectedFile();

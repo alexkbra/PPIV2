@@ -80,7 +80,12 @@ public class Juego {
             Vec[0].eliminarFicha(fichaComputador);
             numeroFichasPorRepartir = numeroFichasPorRepartir - 1;
         }
-        Vec[1] = Vec[0];
+        Ficha ficasSobrantes = Vec[0].getPunta();
+        while (ficasSobrantes != null) {
+            Vec[1].insertarAdelante(new Ficha(ficasSobrantes.getNum1(),ficasSobrantes.getNum2()));
+            ficasSobrantes = ficasSobrantes.getLiga();
+        }
+        crearFichas();
         System.out.println("Sobrantes");
         System.out.println(Vec[1].mostrar());
         System.out.println("Computador");
