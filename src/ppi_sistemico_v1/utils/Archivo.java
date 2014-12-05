@@ -42,11 +42,11 @@ public class Archivo {
                     Lista[] p = juego.getVec();
                     for (int i = 0; i < p.length; i++) {
                         Ficha ficha = p[i].getPunta();
-                        html += "    <div id='Vec[" + i + "]'><h1>VEC[" + i + "]</h1></div>";
+                        html += "    <div id='Vec" + i + "'><h1>VEC[" + i + "]</h1></div>";
                         while (ficha != null) {
                             Ficha f = ficha;
-                            html += "    <h2 id='" + f.getNum1() + "'>Numero <h1>1</h1><span>" + f.getNum1() + "</span></h2>";
-                            html += "    <h2 id='" + f.getNum2() + "'>Numero <h1>2</h1><span>" + f.getNum2() + "</span></h2>";
+                            html += "    <h2 class='" + f.getNum1() + "'>Numero <h1>1</h1><span>" + f.getNum1() + "</span></h2>";
+                            html += "    <h2 class='" + f.getNum2() + "'>Numero <h1>2</h1><span>" + f.getNum2() + "</span></h2>";
                             ficha = ficha.getLiga();
                         }
                     }
