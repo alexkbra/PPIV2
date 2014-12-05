@@ -6,13 +6,7 @@
 package ppi_sistemico_v1.vistas;
 
 import java.io.File;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import ppi_sistemico_v1.bean.Ficha;
 import ppi_sistemico_v1.juego.Juego;
 import ppi_sistemico_v1.utils.Archivo;

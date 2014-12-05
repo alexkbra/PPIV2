@@ -32,7 +32,7 @@ public class Archivo {
                     String html = "<DOCTYPE html!>";
                     html += "<html>";
                     html += "<head>";
-                    html += "   <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">";
+                    html += "   <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
                     html += "   <title>Domino</title>";
                     html += "</head>";
                     html += "</head>";
@@ -42,19 +42,22 @@ public class Archivo {
                     Lista[] p = juego.getVec();
                     for (int i = 0; i < p.length; i++) {
                         Ficha ficha = p[i].getPunta();
-                        html += "    <div id='Vec" + i + "'><h1>VEC[" + i + "]</h1></div>";
+                        html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>|" + getNombre(i) + "|</h1></div></td>";
                         while (ficha != null) {
                             Ficha f = ficha;
-                            html += "    <h2 class='" + f.getNum1() + "'>Numero <h1>1</h1><span>" + f.getNum1() + "</span></h2>";
-                            html += "    <h2 class='" + f.getNum2() + "'>Numero <h1>2</h1><span>" + f.getNum2() + "</span></h2>";
+                            html += "    <td><table border=\"2\"><tr><td>";
+                            html += "    <span class=\"" + f.getNum1() + "\" >|" + f.getNum1() + "|</span></td>";
+                            html += "    <td><span class=\"" + f.getNum2() + "\">|" + f.getNum2() + "|</span></td>";
+                            html += "    <tr></table></td>";
                             ficha = ficha.getLiga();
                         }
+                        html += "</tr></table><br/>";
                     }
 
                     html += "</body>";
                     html += "</html>";
                     abrirArhivo.print(html);
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -66,6 +69,30 @@ public class Archivo {
         return false;
     }
 
+    public String getNombre(int opt) {
+        String name = "";
+        switch (opt) {
+            case 0:
+                name = "Todas las Fichas";
+                break;
+            case 1:
+                name = "Restantes";
+                break;
+            case 2:
+                name = "Computador";
+                break;
+            case 3:
+                name = "Juegos";
+                break;
+            case 4:
+                name = "Juego";
+                break;
+                
+
+        }
+        return name;
+    }
+
     public String leerArchivo(vista1JFrame jframe) {
         String res = "";
         try {
@@ -75,22 +102,7 @@ public class Archivo {
             while (valor != -1) {
                 char c = (char) (valor);
                 res += c + "";
-                String tag = "";
-                int tagValor = 0, i = 0;
-                int num1 = 0, num2 = 0;
-                while (tagValor != -1 && i < 2) {
-                    tagValor = fr.read();
-                    tag += (char) (tagValor) + "";
-                    tagValor = fr.read();
-                    tag += (char) (tagValor) + "";
-                    if (tag.equals("id")) {
-                        break;
-                    } else {
-                        tag = "";
-                    }
-                }
-                Ficha nuevaFicha = new Ficha(Integer.parseInt(obtenerPalabra(fr)), Integer.parseInt(obtenerPalabra(fr)));
-                valor = fr.read();
+
             }
             fr.close();
         } catch (Exception e) {
