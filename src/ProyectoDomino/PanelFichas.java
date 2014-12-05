@@ -18,7 +18,7 @@ public class PanelFichas extends JFrame implements ActionListener {
     public PanelFichas() {
 
         setLayout(null);
-        image = Toolkit.getDefaultToolkit().getImage( getClass().getResource("Imagenes\ficha1-1.png"));
+        image = Toolkit.getDefaultToolkit().getImage( getClass().getResource("Imagenes\\ficha1-1.png"));
 
 
         System.out.println();
