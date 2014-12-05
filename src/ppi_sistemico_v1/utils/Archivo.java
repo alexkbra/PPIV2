@@ -108,7 +108,7 @@ public class Archivo {
     public String leerArchivo(vista1JFrame jframe) {
         String res = "";
         try {
-            FileReader fr = new FileReader(OpenSelectFile(jframe));
+           FileReader fr = new FileReader(OpenSelectFile(jframe));
             int valor = fr.read();
 
             while (valor != -1) {
@@ -118,8 +118,9 @@ public class Archivo {
             }
             fr.close();
             construir(res, jframe);
+            
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return res;
     }
@@ -140,7 +141,7 @@ public class Archivo {
             for (int j = 0; j < fichas.size(); j++) {
                 JsonElement fichaE = fichas.get(j);
                 JsonObject ficha = fichaE.getAsJsonObject();
-                listas[i].insertarAdelante(new Ficha(Integer.parseInt(ficha.get("Num1").getAsString()), Integer.parseInt(ficha.get("Num2").getAsString())));
+                listas[i].insertarFinal(new Ficha(Integer.parseInt(ficha.get("Num1").getAsString()), Integer.parseInt(ficha.get("Num2").getAsString())));
             }
         }
 
