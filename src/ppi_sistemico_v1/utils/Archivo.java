@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.PrintStream;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import ppi_sistemico_v1.bean.Ficha;
 import ppi_sistemico_v1.juego.Juego;
 import ppi_sistemico_v1.juego.Lista;
@@ -29,13 +30,10 @@ public class Archivo {
 
     public boolean escribir_archivo(Juego juego, String url) {
         try {
-
             FileOutputStream archivo = new FileOutputStream(url);
             PrintStream abrirArhivo = new PrintStream(archivo);
-
             FileOutputStream archivoJson = new FileOutputStream(new File(".").getAbsolutePath() + "/Datos/juego.json");
             PrintStream abrirArhivoJson = new PrintStream(archivoJson);
-
             if (juego != null) {
                 String json = "{\"Vector\":{";
                 String html = "<DOCTYPE html!>";
@@ -47,7 +45,6 @@ public class Archivo {
                 html += "</head>";
                 html += "<body>";
                 html += "    <div><h1>ListaSistemico</h1></div>";
-
                 Lista[] p = juego.getVec();
                 for (int i = 0; i < p.length; i++) {
                     Ficha ficha = p[i].getPunta();
@@ -75,7 +72,6 @@ public class Archivo {
             } else {
                 return false;
             }
-
             OpenWin.muestraURL(url, "mozilla");
             abrirArhivoJson.close();
             abrirArhivo.close();
@@ -111,7 +107,7 @@ public class Archivo {
     public String leerArchivo(vista1JFrame jframe) {
         String res = "";
         try {
-           FileReader fr = new FileReader(OpenSelectFile(jframe));
+            FileReader fr = new FileReader(OpenSelectFile(jframe));
             int valor = fr.read();
 
             while (valor != -1) {
@@ -121,7 +117,6 @@ public class Archivo {
             }
             fr.close();
             construir(res, jframe);
-            
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -129,32 +124,36 @@ public class Archivo {
     }
 
     public void construir(String contentText, vista1JFrame frame) {
-        JsonParser parser = new JsonParser();
-        JsonElement datos = parser.parse(contentText);
-        JsonObject jsonObject = datos.getAsJsonObject();
-        JsonElement vec = jsonObject.get("Vector");
-        Lista[] listas = new Lista[5];
-        for (int i = 0; i < listas.length; i++) {
-            listas[i] = new Lista();
-        }
-        for (int i = 0; i < listas.length; i++) {
-            JsonObject vector = vec.getAsJsonObject();
-            JsonElement vecNumber = vector.get("Vec" + i);
-            JsonArray fichas = vecNumber.getAsJsonArray();
-            for (int j = 0; j < fichas.size(); j++) {
-                JsonElement fichaE = fichas.get(j);
-                JsonObject ficha = fichaE.getAsJsonObject();
-                listas[i].insertarFinal(new Ficha(Integer.parseInt(ficha.get("Num1").getAsString()), Integer.parseInt(ficha.get("Num2").getAsString())));
+        try {
+            JsonParser parser = new JsonParser();
+            JsonElement datos = parser.parse(contentText);
+            JsonObject jsonObject = datos.getAsJsonObject();
+            JsonElement vec = jsonObject.get("Vector");
+            Lista[] listas = new Lista[5];
+            for (int i = 0; i < listas.length; i++) {
+                listas[i] = new Lista();
             }
+            for (int i = 0; i < listas.length; i++) {
+                JsonObject vector = vec.getAsJsonObject();
+                JsonElement vecNumber = vector.get("Vec" + i);
+                JsonArray fichas = vecNumber.getAsJsonArray();
+                for (int j = 0; j < fichas.size(); j++) {
+                    JsonElement fichaE = fichas.get(j);
+                    JsonObject ficha = fichaE.getAsJsonObject();
+                    listas[i].insertarFinal(new Ficha(Integer.parseInt(ficha.get("Num1").getAsString()), Integer.parseInt(ficha.get("Num2").getAsString())));
+                }
+            }
+            Juego j = frame.getJuego();
+            if (j == null) {
+                j = (new Juego());
+            }
+            j.setVec(listas);
+            frame.setJuego(j);
+            frame.pintar();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, e.getMessage());
         }
 
-        Juego j = frame.getJuego();
-        if (j == null) {
-            j = (new Juego());
-        }
-        j.setVec(listas);
-        frame.setJuego(j);
-        frame.pintar();
     }
 
     public String OpenSelectFile(vista1JFrame jframe) {
