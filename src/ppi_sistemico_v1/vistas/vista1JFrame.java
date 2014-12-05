@@ -143,14 +143,14 @@ public class vista1JFrame extends javax.swing.JFrame {
 
         jRadioButton4.setText("Derecha ->");
 
-        jButton4.setText("Exportar (Html)");
+        jButton4.setText("Exportar (json y Html)");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Importar (Html)");
+        jButton5.setLabel("Importar (json)");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);

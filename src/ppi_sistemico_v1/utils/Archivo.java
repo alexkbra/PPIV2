@@ -5,6 +5,10 @@
  */
 package ppi_sistemico_v1.utils;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.*;
 import javax.swing.JFileChooser;
 import ppi_sistemico_v1.bean.Ficha;
@@ -30,7 +34,7 @@ public class Archivo {
             PrintStream abrirArhivoJson = new PrintStream(archivoJson);
 
             if (juego != null) {
-                String json = "{\"Vector\":[";
+                String json = "{\"Vector\":{";
                 String html = "<DOCTYPE html!>";
                 html += "<html>";
                 html += "<head>";
@@ -45,7 +49,7 @@ public class Archivo {
                 for (int i = 0; i < p.length; i++) {
                     Ficha ficha = p[i].getPunta();
                     html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>" + getNombre(i) + "</h1></div></td>";
-                    json += "  \"Vec" + i + "\":[";
+                    json += "  \"Vec" + i + "\":[ ";
                     while (ficha != null) {
                         Ficha f = ficha;
                         html += "    <td><table border=\"2\"><tr><td>";
@@ -53,7 +57,6 @@ public class Archivo {
                         html += "    <td><span class=\"" + f.getNum2() + "\">" + f.getNum2() + "</span></td>";
                         html += "    <tr></table></td>";
                         json += "{\"Num1\":\"" + f.getNum1() + "\",\"Num2\":\"" + f.getNum2() + "\"},";
-
                         ficha = ficha.getLiga();
                     }
                     json = json.substring(0, json.length() - 1);
@@ -61,7 +64,7 @@ public class Archivo {
                     html += "</tr></table><br/>";
                 }
                 json = json.substring(0, json.length() - 1);
-                json += "]}";
+                json += "}}";
                 html += "</body>";
                 html += "</html>";
                 abrirArhivoJson.print(json);
@@ -122,33 +125,31 @@ public class Archivo {
     }
 
     public void construir(String contentText, vista1JFrame frame) {
-        
-        
-        
-        String[] v = contentText.split("|");
-        int numberVec = -1, iVec = 0;
+        JsonParser parser = new JsonParser();
+        JsonElement datos = parser.parse(contentText);
+        JsonObject jsonObject = datos.getAsJsonObject();
+        JsonElement vec = jsonObject.get("Vector");
         Lista[] listas = new Lista[5];
-        for (int i = 1; i < contentText.length(); i += 2) {
-            int numero1 = 0, numero2 = 0;
-            try {
-                int res = Integer.parseInt(v[i]);
-                for (int j = i; j < numberVec && j < contentText.length(); j += 2) {
-                    numero1 = Integer.parseInt(v[j]);
-                    numero2 = Integer.parseInt(v[j + 2]);
-                    listas[iVec] = new Lista();
-                    listas[iVec].insertarAdelante(new Ficha(numero1, numero2));
-                }
-            } catch (Exception exception) {
-                numberVec = Integer.parseInt(v[i + 1]);
+        for (int i = 0; i < listas.length; i++) {
+            listas[i] = new Lista();
+        }
+        for (int i = 0; i < listas.length; i++) {
+            JsonObject vector = vec.getAsJsonObject();
+            JsonElement vecNumber = vector.get("Vec" + i);
+            JsonArray fichas = vecNumber.getAsJsonArray();
+            for (int j = 0; j < fichas.size(); j++) {
+                JsonElement fichaE = fichas.get(j);
+                JsonObject ficha = fichaE.getAsJsonObject();
+                listas[i].insertarAdelante(new Ficha(Integer.parseInt(ficha.get("Num1").getAsString()), Integer.parseInt(ficha.get("Num2").getAsString())));
             }
         }
-        
-        
+
         Juego j = frame.getJuego();
         if (j == null) {
-            frame.setJuego(new Juego());
+            j = (new Juego());
         }
         j.setVec(listas);
+        frame.setJuego(j);
         frame.pintar();
     }
 
