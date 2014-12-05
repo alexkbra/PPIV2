@@ -6,10 +6,7 @@
 package ppi_sistemico_v1.utils;
 
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import ppi_sistemico_v1.bean.Ficha;
 import ppi_sistemico_v1.juego.Juego;
 import ppi_sistemico_v1.juego.Lista;
@@ -29,6 +26,7 @@ public class Archivo {
             FileOutputStream archivo = new FileOutputStream(url);
             try (PrintStream abrirArhivo = new PrintStream(archivo)) {
                 if (juego != null) {
+                    
                     String html = "<DOCTYPE html!>";
                     html += "<html>";
                     html += "<head>";
@@ -42,7 +40,7 @@ public class Archivo {
                     Lista[] p = juego.getVec();
                     for (int i = 0; i < p.length; i++) {
                         Ficha ficha = p[i].getPunta();
-                        html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>|" + getNombre(i) + "|:|"+CRUD.contarFichas(ficha)+"</h1></div></td>";
+                        html += " <table  border=\"2\"> <tr> <td> <div id='Vec" + i + "'><h1>|" + getNombre(i) + "|:|" + CRUD.contarFichas(ficha) + "|</h1></div></td>";
                         while (ficha != null) {
                             Ficha f = ficha;
                             html += "    <td><table border=\"2\"><tr><td>";
@@ -87,7 +85,6 @@ public class Archivo {
             case 4:
                 name = "Juego";
                 break;
-
         }
         return name;
     }
@@ -103,42 +100,43 @@ public class Archivo {
                 res += c + "";
             }
             fr.close();
+            construir(res, jframe);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return res;
     }
 
-    public void construir(String contentText,vista1JFrame frame) {
+    public void construir(String contentText, vista1JFrame frame) {
         String[] v = contentText.split("|");
-        int numberVec = -1,iVec = 0;
+        int numberVec = -1, iVec = 0;
         Lista[] listas = new Lista[5];
         for (int i = 1; i < contentText.length(); i += 2) {
             int numero1 = 0, numero2 = 0;
             try {
                 int res = Integer.parseInt(v[i]);
-                for (int j = i ; j < numberVec && j < contentText.length(); j += 2) {
+                for (int j = i; j < numberVec && j < contentText.length(); j += 2) {
                     numero1 = Integer.parseInt(v[j]);
-                    numero2 = Integer.parseInt(v[j+2]);
+                    numero2 = Integer.parseInt(v[j + 2]);
                     listas[iVec] = new Lista();
                     listas[iVec].insertarAdelante(new Ficha(numero1, numero2));
                 }
             } catch (Exception exception) {
-                numberVec=Integer.parseInt(v[i+1]);
+                numberVec = Integer.parseInt(v[i + 1]);
             }
         }
         Juego j = frame.getJuego();
-        if(j == null){
+        if (j == null) {
             frame.setJuego(new Juego());
         }
-        
+        j.setVec(listas);
         frame.pintar();
     }
 
     public String OpenSelectFile(vista1JFrame jframe) {
         String res = "";
         JFileChooser fc = new JFileChooser();
-//        fc.setSelectedFile(jframe.get);
+        fc.setSelectedFile(new File(jframe.getDireccion()));
         int respuesta = fc.showOpenDialog(jframe);
         if (respuesta == JFileChooser.APPROVE_OPTION) {
             File archivoElegido = fc.getSelectedFile();

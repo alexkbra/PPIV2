@@ -24,7 +24,8 @@ public class Juego {
         }
     }
 
-    public Juego() {}
+    public Juego() {
+    }
 
     public Integer getNF() {
         return NF;
@@ -37,8 +38,7 @@ public class Juego {
     public Integer getTurnos() {
         return Turnos;
     }
-    
-    
+
     public void setTurnos(Integer Turnos) {
         this.Turnos = Turnos;
     }
@@ -46,8 +46,8 @@ public class Juego {
     public Lista[] getVec() {
         return Vec;
     }
-    public Lista getinfovec(int pos)
-    {
+
+    public Lista getinfovec(int pos) {
         return Vec[pos];
     }
 
@@ -168,8 +168,8 @@ public class Juego {
                             Vec[3].eliminarFicha(fichaJugador);
                         }
                         if (Vec[3].getPunta() == null) {
-                        res = "Gane!!";
-                    }
+                            res = "Gane!!";
+                        }
                     } else {
                         res += "No Existe Dirección, Debe ser I ó D";
                     }
@@ -225,7 +225,8 @@ public class Juego {
         }
         return res;
     }
-    public String inspeccionar(){ 
+
+    public String inspeccionar() {
         String res = "";
         Integer numeroIzquerdo = Vec[4].obtenernumeroIzquierda();
         Integer numeroDerecho = Vec[4].obtenernumeroDerecha();
@@ -233,22 +234,23 @@ public class Juego {
         Integer numeroDeComputador = Vec[2].fichaMenor();
         Ficha fichaDelJugador = Vec[3].obtenerFicha(numeroDerecho);
         Ficha fichaDelComputador = Vec[2].obtenerFicha(numeroDerecho);
-        if(fichaDelJugador == null){
+        if (fichaDelJugador == null) {
             fichaDelJugador = Vec[3].obtenerFicha(numeroIzquerdo);
         }
-        if(fichaDelComputador == null){
+        if (fichaDelComputador == null) {
             fichaDelComputador = Vec[2].obtenerFicha(numeroIzquerdo);
         }
-        if(fichaDelComputador == null && fichaDelJugador == null){
-            if(numeroDeJugador < numeroDeComputador){
+        if (fichaDelComputador == null && fichaDelJugador == null) {
+            if (numeroDeJugador < numeroDeComputador) {
                 res = "Gane!!";
-            }else{
+            } else {
                 res = "Ganá computador";
             }
         }
         return res;
     }
-    public void insertarFicha(Ficha ficha){
+
+    public void insertarFicha(Ficha ficha) {
         for (int i = 0; i < Vec.length; i++) {
             Vec[i].insertarAdelante(ficha);
         }
