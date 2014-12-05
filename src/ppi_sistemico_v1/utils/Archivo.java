@@ -153,7 +153,6 @@ public class Archivo {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(frame, e.getMessage());
         }
-
     }
 
     public String OpenSelectFile(vista1JFrame jframe) {
