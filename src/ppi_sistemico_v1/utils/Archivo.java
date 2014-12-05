@@ -122,6 +122,9 @@ public class Archivo {
     }
 
     public void construir(String contentText, vista1JFrame frame) {
+        
+        
+        
         String[] v = contentText.split("|");
         int numberVec = -1, iVec = 0;
         Lista[] listas = new Lista[5];
@@ -139,6 +142,8 @@ public class Archivo {
                 numberVec = Integer.parseInt(v[i + 1]);
             }
         }
+        
+        
         Juego j = frame.getJuego();
         if (j == null) {
             frame.setJuego(new Juego());
