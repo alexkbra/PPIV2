@@ -65,6 +65,7 @@ public class Lista {
         }
     }
 
+    
     public Boolean eliminarFicha(Ficha ficha) {
         Boolean res = false;
         try {
@@ -89,7 +90,7 @@ public class Lista {
                     } else {
                         a.setLiga(p.getLiga());
                         p = null;
-                        ficha = null;
+                        
                         res = true;
                     }
                 }
