@@ -1,8 +1,6 @@
 
 package ppi_sistemico_v1.bean;
 
-import ppi_sistemico_v1.juego.Lista;
-
 public class Ficha {
     
     private int Num1;

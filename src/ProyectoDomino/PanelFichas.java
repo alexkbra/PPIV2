@@ -4,9 +4,12 @@
  */
 package ProyectoDomino;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import ppi_sistemico_v1.juego.Juego;
 import ppi_sistemico_v1.juego.Lista;
 

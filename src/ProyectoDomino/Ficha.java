@@ -4,9 +4,11 @@
  */
 package ProyectoDomino;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import javax.swing.JPanel;
 import ppi_sistemico_v1.juego.Juego;
 
 public class Ficha extends JPanel implements MouseMotionListener, Runnable {
@@ -44,7 +46,6 @@ public class Ficha extends JPanel implements MouseMotionListener, Runnable {
 //        }
 //
 //    }
-
     public void paint(Graphics g) {
         if (imagen != null) {
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
