@@ -32,6 +32,7 @@ public class Archivo {
                     String html = "<DOCTYPE html!>";
                     html += "<html>";
                     html += "<head>";
+                    html += "   <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">";
                     html += "   <title>Domino</title>";
                     html += "</head>";
                     html += "</head>";
