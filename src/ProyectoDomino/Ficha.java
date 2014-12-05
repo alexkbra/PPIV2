@@ -7,6 +7,7 @@ package ProyectoDomino;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import ppi_sistemico_v1.juego.Juego;
 
 public class Ficha extends JPanel implements MouseMotionListener, Runnable {
 
@@ -14,39 +15,35 @@ public class Ficha extends JPanel implements MouseMotionListener, Runnable {
     int N1, N2;
     int dx, dy;
     Thread hilo;
+    Juego juego = null;
 
     public Ficha(int n1, int n2, Image imagen) {
         this.imagen = imagen;
         N1 = n1;
         N2 = n2;
-        resize(10, 20);
-
+        resize(40, 50);
         addMouseMotionListener(this);
     }
-    /*
-     public void paint(Graphics g)
-     {
-     g.setColor(Color.white);
-     g.fillRect(0,0,this.getWidth(),this.getHeight());
- 	
-     g.setColor(Color.black);
-     g.drawRect(0,0,this.getWidth()-1,this.getHeight()-1);
- 	
-     g.drawRect(0,0,this.getWidth()-1,this.getHeight()/2-1);
- 	
-     if( N1 == 1)
-     {
-     g.fillOval(this.getWidth()/2,this.getHeight()/4,5,5  );	
-     }
- 	
-     if( N1 ==2)
-     {
-     g.fillOval(this.getWidth()/4,this.getHeight()/4,5,5  );	
-     g.fillOval(this.getWidth()*3/4,this.getHeight()/4,5,5  );		
-     }
- 		
-     }   
-     */
+
+//    public void paint(Graphics g) {
+//        g.setColor(Color.white);
+//        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+//
+//        g.setColor(Color.black);
+//        g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+//
+//        g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() / 2 - 1);
+//
+//        if (N1 == 1) {
+//            g.fillOval(this.getWidth() / 2, this.getHeight() / 4, 5, 5);
+//        }
+//
+//        if (N1 == 2) {
+//            g.fillOval(this.getWidth() / 4, this.getHeight() / 4, 5, 5);
+//            g.fillOval(this.getWidth() * 3 / 4, this.getHeight() / 4, 5, 5);
+//        }
+//
+//    }
 
     public void paint(Graphics g) {
         if (imagen != null) {
