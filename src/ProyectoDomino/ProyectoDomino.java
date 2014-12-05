@@ -5,10 +5,9 @@
 package ProyectoDomino;
 
 public class ProyectoDomino {
-    
+
     public static void main(String[] args) {
-    	
-     PanelFichas x = new PanelFichas();
+
+        PanelFichas x = new PanelFichas();
     }
 }
-
